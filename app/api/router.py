@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
 from app.api.routes.health import router as health_router
-from app.api.routes.mapbox import router as mapbox_router
 from app.api.routes.gtfs import router as gtfs_router
 
 # GTFS Tabloları için router'lar
@@ -21,7 +20,6 @@ api_router = APIRouter()
 
 # Genel router'lar
 api_router.include_router(health_router, tags=["health"], prefix="")
-api_router.include_router(mapbox_router, tags=["mapbox"], prefix="")
 api_router.include_router(gtfs_router, tags=["gtfs"], prefix="/gtfs")
 
 # GTFS Tablo router'ları

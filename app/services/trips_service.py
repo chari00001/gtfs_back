@@ -21,7 +21,7 @@ class TripsService(BaseService[Trips, TripsCreate, TripsUpdate]):
         query = self.db.query(Trips).filter(Trips.route_id == route_id)
         
         if snapshot_id:
-            query = query.filter(Trips.snapshot_id == snapshot_id)
+            query = query.filter(Trips.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -30,7 +30,7 @@ class TripsService(BaseService[Trips, TripsCreate, TripsUpdate]):
         query = self.db.query(Trips).filter(Trips.service_id == service_id)
         
         if snapshot_id:
-            query = query.filter(Trips.snapshot_id == snapshot_id)
+            query = query.filter(Trips.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -39,7 +39,7 @@ class TripsService(BaseService[Trips, TripsCreate, TripsUpdate]):
         query = self.db.query(Trips).filter(Trips.direction_id == direction_id)
         
         if snapshot_id:
-            query = query.filter(Trips.snapshot_id == snapshot_id)
+            query = query.filter(Trips.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -51,7 +51,7 @@ class TripsService(BaseService[Trips, TripsCreate, TripsUpdate]):
         ).group_by(Trips.route_id)
         
         if snapshot_id:
-            query = query.filter(Trips.snapshot_id == snapshot_id)
+            query = query.filter(Trips.snapshot_id == str(snapshot_id))
         
         results = query.all()
         return [{"route_id": r.route_id, "trip_count": r.trip_count} for r in results]

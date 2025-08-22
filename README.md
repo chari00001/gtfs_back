@@ -27,7 +27,6 @@ Modern, asenkron ve ölçeklenebilir **GTFS (General Transit Feed Specification)
 - **Real-time Status**: Upload ilerleme takibi
 - **Error Handling**: Robust hata yönetimi ve rollback
 - **Auto Cleanup**: Eski snapshot'ları otomatik temizleme
-- **Mapbox Entegrasyonu**: Harita görselleştirme desteği
 - **OpenAPI Docs**: Otomatik API dokümantasyonu
 
 ## 🏁 Hızlı Başlangıç
@@ -78,10 +77,7 @@ BACKEND_CORS_ORIGINS=["http://localhost:3000","http://localhost:8080"]
 # Veritabanı
 DATABASE_URL="postgresql://postgres:password@localhost/gtfs_db"
 
-# Mapbox (Opsiyonel)
-MAPBOX_PUBLIC_TOKEN="pk.ey..."
-MAPBOX_SECRET_TOKEN="sk.ey..."
-```
+
 
 ### Veritabanı Connection Pool
 ```python

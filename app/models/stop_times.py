@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Column, String, Integer, SmallInteger, Float, Time, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, String, Integer, SmallInteger, Float, ForeignKey, UniqueConstraint
 
 from app.models.base import GTFSBase
 
@@ -10,8 +10,8 @@ class StopTimes(GTFSBase):
 
     trip_id = Column(String, ForeignKey("trips.trip_id"), primary_key=True)
     stop_sequence = Column(Integer, primary_key=True)
-    arrival_time = Column(Time)
-    departure_time = Column(Time)
+    arrival_time = Column(String)  # GTFS allows 24:xx:xx format
+    departure_time = Column(String)  # GTFS allows 24:xx:xx format
     stop_id = Column(String, ForeignKey("stops.stop_id"))
     stop_headsign = Column(String)
     pickup_type = Column(SmallInteger)

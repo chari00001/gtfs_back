@@ -23,7 +23,7 @@ class RoutesService(BaseService[Routes, RoutesCreate, RoutesUpdate]):
         query = self.db.query(Routes).filter(Routes.agency_id == agency_id)
         
         if snapshot_id:
-            query = query.filter(Routes.snapshot_id == snapshot_id)
+            query = query.filter(Routes.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -32,7 +32,7 @@ class RoutesService(BaseService[Routes, RoutesCreate, RoutesUpdate]):
         query = self.db.query(Routes).filter(Routes.route_type == route_type)
         
         if snapshot_id:
-            query = query.filter(Routes.snapshot_id == snapshot_id)
+            query = query.filter(Routes.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -62,7 +62,7 @@ class RoutesService(BaseService[Routes, RoutesCreate, RoutesUpdate]):
             query = query.filter(Routes.agency_id == agency_id)
         
         if snapshot_id:
-            query = query.filter(Routes.snapshot_id == snapshot_id)
+            query = query.filter(Routes.snapshot_id == str(snapshot_id))
         
         return query.offset(skip).limit(limit).all()
     
@@ -76,7 +76,7 @@ class RoutesService(BaseService[Routes, RoutesCreate, RoutesUpdate]):
         ).group_by(Routes.route_type)
         
         if snapshot_id:
-            query = query.filter(Routes.snapshot_id == snapshot_id)
+            query = query.filter(Routes.snapshot_id == str(snapshot_id))
         
         results = query.all()
         
@@ -106,6 +106,6 @@ class RoutesService(BaseService[Routes, RoutesCreate, RoutesUpdate]):
         query = self.db.query(Routes).filter(Routes.route_color.isnot(None))
         
         if snapshot_id:
-            query = query.filter(Routes.snapshot_id == snapshot_id)
+            query = query.filter(Routes.snapshot_id == str(snapshot_id))
         
         return query.all()

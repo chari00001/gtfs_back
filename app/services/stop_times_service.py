@@ -22,7 +22,7 @@ class StopTimesService(BaseService[StopTimes, StopTimesCreate, StopTimesUpdate])
                                        .order_by(StopTimes.stop_sequence)
         
         if snapshot_id:
-            query = query.filter(StopTimes.snapshot_id == snapshot_id)
+            query = query.filter(StopTimes.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -32,7 +32,7 @@ class StopTimesService(BaseService[StopTimes, StopTimesCreate, StopTimesUpdate])
                                        .order_by(StopTimes.arrival_time)
         
         if snapshot_id:
-            query = query.filter(StopTimes.snapshot_id == snapshot_id)
+            query = query.filter(StopTimes.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -53,6 +53,6 @@ class StopTimesService(BaseService[StopTimes, StopTimesCreate, StopTimesUpdate])
         ).order_by(StopTimes.arrival_time)
         
         if snapshot_id:
-            query = query.filter(StopTimes.snapshot_id == snapshot_id)
+            query = query.filter(StopTimes.snapshot_id == str(snapshot_id))
         
         return query.all()

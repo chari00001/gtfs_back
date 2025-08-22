@@ -12,10 +12,12 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "GTFS Backend"
     DEBUG: bool = False
     API_V1_PREFIX: str = "/api"
-    BACKEND_CORS_ORIGINS: List[str] = []
-
-    MAPBOX_PUBLIC_TOKEN: str | None = None
-    MAPBOX_SECRET_TOKEN: str | None = None
+    BACKEND_CORS_ORIGINS: List[str] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3000",
+        "*"  # Geliştirme için tüm originlere izin ver
+    ]
 
     DATABASE_URL: str = "postgresql://postgres:postgres@localhost/gtfs_db"
 

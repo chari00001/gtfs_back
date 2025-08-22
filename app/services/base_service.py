@@ -32,7 +32,7 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         query = self.db.query(self.model)
         
         if snapshot_id:
-            query = query.filter(self.model.snapshot_id == snapshot_id)
+            query = query.filter(self.model.snapshot_id == str(snapshot_id))
         
         return query.order_by(desc(self.model.created_at)).offset(skip).limit(limit).all()
     
@@ -42,14 +42,14 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         query = self.db.query(self.model).filter(pk_column == record_id)
         
         if snapshot_id:
-            query = query.filter(self.model.snapshot_id == snapshot_id)
+            query = query.filter(self.model.snapshot_id == str(snapshot_id))
         
         return query.first()
     
     def create(self, obj_in: CreateSchemaType, snapshot_id: UUID) -> ModelType:
         """Yeni kayıt oluştur"""
         obj_data = obj_in.model_dump() if hasattr(obj_in, 'model_dump') else obj_in.dict()
-        obj_data['snapshot_id'] = snapshot_id
+        obj_data['snapshot_id'] = str(snapshot_id)
         
         db_obj = self.model(**obj_data)
         self.db.add(db_obj)
@@ -92,7 +92,7 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         query = self.db.query(self.model)
         
         if snapshot_id:
-            query = query.filter(self.model.snapshot_id == snapshot_id)
+            query = query.filter(self.model.snapshot_id == str(snapshot_id))
         
         return query.count()
     
@@ -119,7 +119,7 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def delete_snapshot(self, snapshot_id: UUID) -> int:
         """Snapshot'taki tüm kayıtları sil"""
         deleted_count = self.db.query(self.model).filter(
-            self.model.snapshot_id == snapshot_id
+            self.model.snapshot_id == str(snapshot_id)
         ).delete()
         
         self.db.commit()
@@ -133,7 +133,7 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         
         for obj_in in objs_in:
             obj_data = obj_in.model_dump() if hasattr(obj_in, 'model_dump') else obj_in.dict()
-            obj_data['snapshot_id'] = snapshot_id
+            obj_data['snapshot_id'] = str(snapshot_id)
             db_objs.append(self.model(**obj_data))
         
         self.db.add_all(db_objs)
@@ -150,7 +150,7 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         query = self.db.query(self.model).filter(pk_column.in_(record_ids))
         
         if snapshot_id:
-            query = query.filter(self.model.snapshot_id == snapshot_id)
+            query = query.filter(self.model.snapshot_id == str(snapshot_id))
         
         deleted_count = query.delete(synchronize_session=False)
         self.db.commit()

@@ -21,7 +21,7 @@ class ShapesService(BaseService[Shapes, ShapesCreate, ShapesUpdate]):
                                     .order_by(Shapes.shape_pt_sequence)
         
         if snapshot_id:
-            query = query.filter(Shapes.snapshot_id == snapshot_id)
+            query = query.filter(Shapes.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -32,6 +32,6 @@ class ShapesService(BaseService[Shapes, ShapesCreate, ShapesUpdate]):
         query = self.db.query(distinct(Shapes.shape_id))
         
         if snapshot_id:
-            query = query.filter(Shapes.snapshot_id == snapshot_id)
+            query = query.filter(Shapes.snapshot_id == str(snapshot_id))
         
         return [r[0] for r in query.all()]

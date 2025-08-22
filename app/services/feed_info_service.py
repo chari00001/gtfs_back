@@ -20,7 +20,7 @@ class FeedInfoService(BaseService[FeedInfo, FeedInfoCreate, FeedInfoUpdate]):
         query = self.db.query(FeedInfo)
         
         if snapshot_id:
-            query = query.filter(FeedInfo.snapshot_id == snapshot_id)
+            query = query.filter(FeedInfo.snapshot_id == str(snapshot_id))
         
         return query.order_by(FeedInfo.feed_start_date.desc()).first()
     
@@ -31,6 +31,6 @@ class FeedInfoService(BaseService[FeedInfo, FeedInfoCreate, FeedInfoUpdate]):
         )
         
         if snapshot_id:
-            query = query.filter(FeedInfo.snapshot_id == snapshot_id)
+            query = query.filter(FeedInfo.snapshot_id == str(snapshot_id))
         
         return query.all()

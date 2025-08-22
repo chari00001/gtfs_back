@@ -20,7 +20,7 @@ class FareRulesService(BaseService[FareRules, FareRulesCreate, FareRulesUpdate])
         query = self.db.query(FareRules).filter(FareRules.route_id == route_id)
         
         if snapshot_id:
-            query = query.filter(FareRules.snapshot_id == snapshot_id)
+            query = query.filter(FareRules.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -29,6 +29,6 @@ class FareRulesService(BaseService[FareRules, FareRulesCreate, FareRulesUpdate])
         query = self.db.query(FareRules).filter(FareRules.fare_id == fare_id)
         
         if snapshot_id:
-            query = query.filter(FareRules.snapshot_id == snapshot_id)
+            query = query.filter(FareRules.snapshot_id == str(snapshot_id))
         
         return query.all()

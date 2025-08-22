@@ -23,7 +23,7 @@ class StopsService(BaseService[Stops, StopsCreate, StopsUpdate]):
         query = self.db.query(Stops).filter(Stops.stop_name.ilike(f"%{name}%"))
         
         if snapshot_id:
-            query = query.filter(Stops.snapshot_id == snapshot_id)
+            query = query.filter(Stops.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -46,7 +46,7 @@ class StopsService(BaseService[Stops, StopsCreate, StopsUpdate]):
         )
         
         if snapshot_id:
-            query = query.filter(Stops.snapshot_id == snapshot_id)
+            query = query.filter(Stops.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -73,7 +73,7 @@ class StopsService(BaseService[Stops, StopsCreate, StopsUpdate]):
         )
         
         if snapshot_id:
-            query = query.filter(Stops.snapshot_id == snapshot_id)
+            query = query.filter(Stops.snapshot_id == str(snapshot_id))
         
         results = query.limit(limit).all()
         
@@ -97,7 +97,7 @@ class StopsService(BaseService[Stops, StopsCreate, StopsUpdate]):
         query = self.db.query(Stops).filter(Stops.zone_id == zone_id)
         
         if snapshot_id:
-            query = query.filter(Stops.snapshot_id == snapshot_id)
+            query = query.filter(Stops.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -106,7 +106,7 @@ class StopsService(BaseService[Stops, StopsCreate, StopsUpdate]):
         query = self.db.query(Stops).filter(Stops.stop_url.isnot(None))
         
         if snapshot_id:
-            query = query.filter(Stops.snapshot_id == snapshot_id)
+            query = query.filter(Stops.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -120,7 +120,7 @@ class StopsService(BaseService[Stops, StopsCreate, StopsUpdate]):
         )
         
         if snapshot_id:
-            query = query.filter(Stops.snapshot_id == snapshot_id)
+            query = query.filter(Stops.snapshot_id == str(snapshot_id))
         
         result = query.first()
         

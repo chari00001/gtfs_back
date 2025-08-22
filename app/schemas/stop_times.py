@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from datetime import time
 from pydantic import BaseModel, ConfigDict
 
 
 class StopTimesBase(BaseModel):
-    arrival_time: time | None = None
-    departure_time: time | None = None
+    arrival_time: str | None = None  # GTFS allows 24:xx:xx format
+    departure_time: str | None = None  # GTFS allows 24:xx:xx format
     stop_id: str | None = None
     stop_headsign: str | None = None
     pickup_type: int | None = None
@@ -27,8 +26,8 @@ class StopTimesRead(StopTimesBase):
 
 
 class StopTimesUpdate(BaseModel):
-    arrival_time: time | None = None
-    departure_time: time | None = None
+    arrival_time: str | None = None  # GTFS allows 24:xx:xx format
+    departure_time: str | None = None  # GTFS allows 24:xx:xx format
     stop_id: str | None = None
     stop_headsign: str | None = None
     pickup_type: int | None = None

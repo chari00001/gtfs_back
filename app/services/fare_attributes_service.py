@@ -20,7 +20,7 @@ class FareAttributesService(BaseService[FareAttributes, FareAttributesCreate, Fa
         query = self.db.query(FareAttributes).filter(FareAttributes.agency_id == agency_id)
         
         if snapshot_id:
-            query = query.filter(FareAttributes.snapshot_id == snapshot_id)
+            query = query.filter(FareAttributes.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -29,6 +29,6 @@ class FareAttributesService(BaseService[FareAttributes, FareAttributesCreate, Fa
         query = self.db.query(FareAttributes).filter(FareAttributes.currency_type == currency_type)
         
         if snapshot_id:
-            query = query.filter(FareAttributes.snapshot_id == snapshot_id)
+            query = query.filter(FareAttributes.snapshot_id == str(snapshot_id))
         
         return query.all()

@@ -28,7 +28,7 @@ class CalendarService(BaseService[Calendar, CalendarCreate, CalendarUpdate]):
         )
         
         if snapshot_id:
-            query = query.filter(Calendar.snapshot_id == snapshot_id)
+            query = query.filter(Calendar.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -39,6 +39,6 @@ class CalendarService(BaseService[Calendar, CalendarCreate, CalendarUpdate]):
         )
         
         if snapshot_id:
-            query = query.filter(Calendar.snapshot_id == snapshot_id)
+            query = query.filter(Calendar.snapshot_id == str(snapshot_id))
         
         return query.all()

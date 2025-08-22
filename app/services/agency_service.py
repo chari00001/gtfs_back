@@ -23,7 +23,7 @@ class AgencyService(BaseService[Agency, AgencyCreate, AgencyUpdate]):
         query = self.db.query(Agency).filter(Agency.agency_name.ilike(f"%{agency_name}%"))
         
         if snapshot_id:
-            query = query.filter(Agency.snapshot_id == snapshot_id)
+            query = query.filter(Agency.snapshot_id == str(snapshot_id))
         
         return query.first()
     
@@ -32,7 +32,7 @@ class AgencyService(BaseService[Agency, AgencyCreate, AgencyUpdate]):
         query = self.db.query(Agency).filter(Agency.agency_timezone == timezone)
         
         if snapshot_id:
-            query = query.filter(Agency.snapshot_id == snapshot_id)
+            query = query.filter(Agency.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -41,7 +41,7 @@ class AgencyService(BaseService[Agency, AgencyCreate, AgencyUpdate]):
         query = self.db.query(Agency).filter(Agency.agency_phone.isnot(None))
         
         if snapshot_id:
-            query = query.filter(Agency.snapshot_id == snapshot_id)
+            query = query.filter(Agency.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -50,7 +50,7 @@ class AgencyService(BaseService[Agency, AgencyCreate, AgencyUpdate]):
         query = self.db.query(Agency).filter(Agency.agency_email.isnot(None))
         
         if snapshot_id:
-            query = query.filter(Agency.snapshot_id == snapshot_id)
+            query = query.filter(Agency.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -86,6 +86,6 @@ class AgencyService(BaseService[Agency, AgencyCreate, AgencyUpdate]):
                 query = query.filter(Agency.agency_email.is_(None))
         
         if snapshot_id:
-            query = query.filter(Agency.snapshot_id == snapshot_id)
+            query = query.filter(Agency.snapshot_id == str(snapshot_id))
         
         return query.offset(skip).limit(limit).all()

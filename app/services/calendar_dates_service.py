@@ -20,7 +20,7 @@ class CalendarDatesService(BaseService[CalendarDates, CalendarDatesCreate, Calen
         query = self.db.query(CalendarDates).filter(CalendarDates.service_id == service_id)
         
         if snapshot_id:
-            query = query.filter(CalendarDates.snapshot_id == snapshot_id)
+            query = query.filter(CalendarDates.snapshot_id == str(snapshot_id))
         
         return query.all()
     
@@ -29,6 +29,6 @@ class CalendarDatesService(BaseService[CalendarDates, CalendarDatesCreate, Calen
         query = self.db.query(CalendarDates).filter(CalendarDates.exception_type == 2)
         
         if snapshot_id:
-            query = query.filter(CalendarDates.snapshot_id == snapshot_id)
+            query = query.filter(CalendarDates.snapshot_id == str(snapshot_id))
         
         return query.all()
