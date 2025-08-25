@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: gtfs_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gtfs-network
+
+  backend:
+    build: .
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db/gtfs_db
+      - DEBUG=true
+      - PROJECT_NAME=GTFS Backend Local
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    networks:
+      - gtfs-network
+    # Backend'i sadece internal network'te expose et
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "8080:8080" # API direct access için
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+    networks:
+      - gtfs-network
+
+volumes:
+  postgres_data:
+
+networks:
+  gtfs-network:
+    driver: bridge

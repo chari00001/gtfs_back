@@ -22,6 +22,15 @@ async def list_trips(
     return service.get_all(snapshot_id=snapshot_id, skip=skip, limit=limit)
 
 
+@router.get("/active", response_model=List[TripsSchema], summary="Get active trips now")
+async def get_active_trips_now(
+    snapshot_id: Optional[UUID] = Query(None, description="Filter by snapshot ID"),
+    skip: int = Query(0, ge=0), limit: int = Query(100, ge=1, le=1000),
+    db: Session = Depends(get_db)
+):
+    service = TripsService(db)
+    return service.get_active_trips_now(snapshot_id=snapshot_id, skip=skip, limit=limit)
+
 @router.get("/{trip_id}", response_model=TripsSchema, summary="Get trip by ID")
 async def get_trip(
     trip_id: str, snapshot_id: Optional[UUID] = Query(None), db: Session = Depends(get_db)
@@ -32,6 +41,16 @@ async def get_trip(
         raise HTTPException(status_code=404, detail="Trip not found")
     return trip
 
+@router.get("/agency/{agency_id}", response_model=List[TripsSchema], summary="Get trips by agency")
+async def get_trip_by_agency(
+    agency_id: str, snapshot_id: Optional[UUID] = Query(None), db: Session = Depends(get_db)    
+):
+    service = TripsService(db)
+
+    trips = service.get_by_agency(agency_id, snapshot_id)
+    if not trips:
+        raise HTTPException(status_code=404, detail="Trips not found")
+    return trips
 
 @router.post("/", response_model=TripsSchema, summary="Create new trip")
 async def create_trip(
@@ -63,3 +82,5 @@ async def get_trips_summary_by_route(
 ):
     service = TripsService(db)
     return service.get_trips_summary_by_route(snapshot_id)
+
+

@@ -3,11 +3,14 @@ from __future__ import annotations
 from typing import List, Optional
 from uuid import UUID
 from sqlalchemy.orm import Session
-from sqlalchemy import and_, func
+from sqlalchemy import distinct, and_, func, desc
+from datetime import datetime
 
 from app.models.trips import Trips
 from app.schemas.trips import TripsCreate, TripsUpdate
 from app.services.base_service import BaseService
+from app.models.routes import Routes
+from app.models.stop_times import StopTimes
 
 
 class TripsService(BaseService[Trips, TripsCreate, TripsUpdate]):
@@ -24,6 +27,37 @@ class TripsService(BaseService[Trips, TripsCreate, TripsUpdate]):
             query = query.filter(Trips.snapshot_id == str(snapshot_id))
         
         return query.all()
+    
+    def get_by_agency(self, agency_id: str, snapshot_id: Optional[UUID] = None) -> List[Trips]:
+        query = self.db.query(Trips).join(Routes, Trips.route_id == Routes.route_id).filter(Routes.agency_id == agency_id)
+        
+        if snapshot_id:
+            query = query.filter(Trips.snapshot_id == str(snapshot_id))
+
+        return query.all()
+    
+    def get_active_trips_now(
+        self,
+        skip: int = 0, 
+        limit: int = 100,
+        snapshot_id: Optional[UUID] = None) -> List[Trips]:
+        """Şu anda aktif olan seferleri getir"""
+        now = datetime.now()
+        current_time_str = now.strftime("%H:%M:%S")
+        
+        # Şu anda aktif seferler: departure geçmiş, arrival henüz olmamış
+        query = self.db.query(Trips).join(
+            StopTimes, StopTimes.trip_id == Trips.trip_id
+        ).filter(
+            StopTimes.departure_time <= current_time_str,
+            StopTimes.arrival_time >= current_time_str
+        ).order_by(desc(self.model.created_at)).offset(skip).limit(limit)
+        
+        if snapshot_id:
+            query = query.filter(Trips.snapshot_id == str(snapshot_id))
+        
+        return query.all()       
+        
     
     def get_by_service(self, service_id: str, snapshot_id: Optional[UUID] = None) -> List[Trips]:
         """Service ID'ye göre trip'leri getir"""
