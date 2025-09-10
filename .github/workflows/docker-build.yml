@@ -24,7 +24,15 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build . -f Dockerfile.prod -t ghcr.io/${{ github.repository }}:latest
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository }}
+          VERSION=latest
+          COMMIT_SHA=${{ github.sha}}
+
+          docker build . -f Dockerfile.prod -t $IMAGE_ID:$VERSION -t $IMAGE_ID:$COMMIT_SHA
 
       - name: Push Docker image
-        run: docker push ghcr.io/${{ github.repository }}:latest
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository }}
+
+          docker push --all-tags $IMAGE_ID
