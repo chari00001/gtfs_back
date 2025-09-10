@@ -55,3 +55,27 @@ volumes:
 networks:
   gtfs-network:
     driver: bridge
+
+# Servisleri başlat
+docker-compose up  
+
+# Arkaplanda çalıştır
+docker-compose up -d  
+
+# Servisleri durdur
+docker-compose down  
+
+# Servis logları
+docker-compose logs  
+
+# Bir servisin logları
+docker-compose logs <servis_adi>  
+
+# Yeniden başlatma
+docker-compose restart  
+
+# Image oluşturma
+docker-compose build  
+
+# Servislerin durumunu görmek
+docker-compose ps  
