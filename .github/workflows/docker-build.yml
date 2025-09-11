@@ -48,6 +48,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Create initial migration
+        run: |
+          alembic revision --autogenerate -m "Initial GTFS schema"
+
       - name: Run database migrations
         run: |
           alembic upgrade head
