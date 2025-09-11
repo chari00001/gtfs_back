@@ -21,7 +21,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_db():
-    """Veritabanı session'ı döndüren dependency function"""
     db = SessionLocal()
     try:
         yield db
